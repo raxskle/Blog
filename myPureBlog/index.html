@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cn" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/mie.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0  user-scalable=0"
+    />
+    <title>Raxskle</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <canvas
+      class="fireworks"
+      style="
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 999999;
+        pointer-events: none;
+      "
+    ></canvas>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script src="/utils/mouseEffect.js"></script>
+    <!-- 生产模式引入非module的script标签，是作为public下的静态资源 -->
+    <!-- <script
+      type="text/javascript"
+      color="12, 174, 196"
+      pointColor="12, 174, 196"
+      opacity="0.7"
+      zIndex="1"
+      count="100"
+      src="https://cdn.jsdelivr.net/npm/canvas-nest.js/dist/canvas-nest.js"
+    ></script> -->
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "allowJs": true,
+      "target": "esnext",
+      "module": "esnext",
+      // "strict": true,
+      "jsx": "preserve",
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      // "noImplicitAny":true
+  },
+  "include": [
+      "./src/**/*",
+      "./src/**/*.vue",
+      "shims.d.ts"
+, "utils"  ],
+  "types": [  "vite/client" ]
+}

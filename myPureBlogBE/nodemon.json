@@ -1,0 +1,4 @@
+{
+  "watah":["./**/*.js","./app.js"],
+  "ignore":["node_modules"]
+}
