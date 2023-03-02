@@ -1,5 +1,5 @@
 <template>
-<div  ref="toTopBtn" class="toTopBtn" @click="moveToTop">
+<div  ref="toTopBtn" class="toTopBtn" :class="movement" @click="moveToTop">
   <img class="toTopBtnIcon" src="../assets/image/315-arrow-up2.svg" />
 </div>
 </template>
@@ -8,21 +8,16 @@
 import { onUnmounted, ref } from 'vue';
 
 let toTopBtn = ref(null);
-let scrollTop:number;
+let scrollTop: number;
+let movement = ref("slide-out-right");
 let showToTopBtn = () => {
-  if (scrollTop <= window.scrollY) {
-    // console.log("下拉");
-    if (scrollTop > 400) {
-      toTopBtn.value.className = "toTopBtn slide-in-right";
-    } 
-  } else if (scrollTop > window.scrollY) {
-    if (scrollTop > 400) {
-      toTopBtn.value.className = "toTopBtn slide-in-right";
-    } else {
-      toTopBtn.value.className = "toTopBtn slide-out-right";
-    }    
-  }
-  scrollTop = window.scrollY;
+  scrollTop = window.scrollY;  
+  if (scrollTop > 400) {
+    movement.value = "slide-in-right";
+  }else if (scrollTop < 400) {
+    movement.value = "slide-out-right";
+  }  
+
 }
 window.addEventListener("scroll", showToTopBtn)
 
@@ -108,6 +103,7 @@ onUnmounted(() => {
   bottom: 50px;
   width: 35px;
   height: 35px;
+  z-index: 5;
   @include themeify {
     background-color: themed('index-page-bg-color');
     border: 1px solid themed('line-color');    

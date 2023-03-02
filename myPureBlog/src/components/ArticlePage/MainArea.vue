@@ -6,6 +6,9 @@
       <div class="timeBar">{{articleData.time}}</div>
       <div class="classBar">{{articleData.class}}</div>
     </div>
+    <div class="tagsBar" v-if="articleData.tags != '' && articleData.tags != null && articleData.tags != ' ' "> 
+      标签：{{articleData.tags}} 
+    </div>
     <div class="articleContentBar">
       <!-- <div class="contentBar">
         {{articleMdText}}
@@ -17,18 +20,23 @@
   </div>
   <div class="articleFooter">
     <div ref="prior" class="prior" @click="toArticle(articleData.id+1)">{{priorText}}</div>
-    <div class="footerText">转载本网站所有内容文字资料请注明来源！</div>
+    <!-- <div class="footerText">转载本网站所有内容文字资料请注明来源！</div> -->
     <div ref="next" class="next" @click="toArticle(articleData.id-1)">{{nextText}}</div>
   </div>
+  <div class="warning footerText">转载本网站所有内容文字资料请注明来源！ </div>
 </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, toRefs, watch, } from 'vue';
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-const store = useStore();
 
+<script lang="ts" setup>
+import { ref, toRefs, watch, onMounted, onUpdated, } from 'vue';
+import { useStore } from '../../store/index.js';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue'
+import hljs from "highlight.js"
+
+const store = useStore();
+const { articlesNum } = storeToRefs(store);
 // router push进入同一页面，js代码不会重复执行，数据不会更新
 
 let props = defineProps({
@@ -39,7 +47,6 @@ let props = defineProps({
 let { articleData } = toRefs(props);
 // 防止还没拿到数据就先渲染报错，在组件写一个v-if="该数据"
 
-let articlesNum = computed(() => store.state.articlesNum);
 
 let priorText = ref("上一篇");
 let nextText = ref("下一篇");
@@ -75,6 +82,31 @@ let toArticle = (id:number) => {
 let prior = ref(null);
 let next = ref(null);
 
+hljs.configure({languages: ["javascript"]});
+
+onUpdated(() => {
+  document.querySelectorAll('pre code').forEach(el => {
+    hljs.highlightElement(el as HTMLElement);
+    // hljs.highlightBlock(el as HTMLElement);
+  });
+
+    // 配置 highlight.js
+    // hljs.configure({
+    //   // 忽略未经转义的 HTML 字符
+    //   ignoreUnescapedHTML: true,
+    // });
+    // 获取到内容中所有的code标签
+    // const codes = document.querySelectorAll("pre code");
+    // codes.forEach((el) => {
+    //   // 让code进行高亮
+    //   hljs.highlightElement(el as HTMLElement);
+    // });  
+})
+
+// onUpdated(() => {
+//   hljs.initHighlightingOnLoad();
+//   hljs.highlightAll();  
+// })
 
 
 </script>
@@ -96,7 +128,7 @@ let next = ref(null);
   width: 90%;
   // background-color: rgb(239, 239, 239);
   border-radius: 15px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 
   justify-content: space-between;
   >.prior , >.next {
@@ -116,17 +148,18 @@ let next = ref(null);
 
   }
 
-  >.footerText {
+}
+.footerText {
     flex-grow: 1;
     font-size: .8em;
     max-height: 65px;
     overflow: hidden;
     margin-left: 5px;
     margin-right: 5px;
+    margin-bottom: 20px;
     color: rgb(158, 158, 158);
     user-select: none;
   }
-}
 
 @media screen and (max-width: 1000px) {
   .mainArea{
@@ -168,7 +201,7 @@ let next = ref(null);
   .articleDataBar {
     margin-top: 10px;
     margin-bottom: 10px;
-    animation: slide-top-fast 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: slide-top-fast 0.5s ease-in-out both;
     .timeBar{
       @include articleData-default;
       margin-right: 20px;
@@ -197,6 +230,15 @@ let next = ref(null);
     
   }
 
+  .tagsBar {
+    animation: slide-top-fast 0.5s ease-in-out both;   
+    font-style: italic;
+    margin-left: 5px; 
+    color: grey;
+  }
+
+  
+
   .articleContentBar {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -210,7 +252,7 @@ let next = ref(null);
     overflow: hidden;
     flex-direction: column;
     // background-color: antiquewhite;
-    animation: slide-top-slow 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;  
+    animation: slide-top-slow 0.8s ease-in-out both;  
   }
 }
 
@@ -247,6 +289,11 @@ let next = ref(null);
     color: themed('font-color'); 
   }  
   // padding-left: 10px;
+}
+
+
+pre code {
+  color: antiquewhite;
 }
 
 </style>

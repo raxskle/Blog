@@ -1,7 +1,7 @@
-let getUrlPage = function () {
+let getUrlPage = function (): string  {
   let url = location.search;
 
-  let theRequest: any = {};
+  let theRequest :any = {};
   if (url.indexOf("?") != -1) {
     let str = url.slice(1);
     let strs = str.split("&");

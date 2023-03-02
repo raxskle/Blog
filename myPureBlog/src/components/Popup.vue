@@ -16,7 +16,7 @@ let props = defineProps({
 let { content } = toRefs(props);
 let emit = defineEmits(["fadePopup"]);
 
-console.log(content.value);
+// console.log(content.value);
 
 setTimeout(() => {
   emit("fadePopup");

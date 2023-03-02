@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 宝塔SSL证书
+myPureBlogAdmin
 文章markdown原版
 原型图
 字体图标资源

@@ -1,18 +1,20 @@
 <template>
-  <div class="tagContainer">
+  <div class="tagContainer" @click="toTags">
     <div class="tagText">{{tagText}}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
+import { useRouter } from "vue-router";
+let router = useRouter();
 
-let props = defineProps({
-  tagText: {
-    type:String,
-  }
-})
+let props = defineProps(["tagText"])
 let { tagText } = toRefs(props);
+
+let toTags = () => {
+  router.push(`/tags?t=${tagText.value}`);
+}
 
 </script>
 
@@ -23,7 +25,7 @@ let { tagText } = toRefs(props);
   @include themeify {
     background-color:themed('box-bg-color') ;
   }   
-  
+  cursor: pointer;
   border-radius:$tag-border;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -34,13 +36,17 @@ let { tagText } = toRefs(props);
     @include themeify {
       background-color: themed('box-bg-color-deep');
     }   
-
   }
 
 
   .tagText {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: all .4s;
+    &:hover {
+      @include hover-effect;    
+    }
+
   }
 }
 </style>

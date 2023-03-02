@@ -52,13 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { useStore } from '../../../store/index.js';
+import { storeToRefs } from 'pinia';
 const store = useStore();
-
-let articlesNum = computed(() => store.state.articlesNum);
-let tagsNum = computed(() => store.state.tagsNum);
-
+const { articlesNum, tagsNum  } = storeToRefs(store);
 
 let toURL = (url:string) => {
   window.open(url);
@@ -93,8 +90,8 @@ let toURL = (url:string) => {
   justify-content: space-between;
 
   .findme {
-    font-size: 22px;
-    height: 50px;
+    font-size: 20px;
+    height: 48px;
     user-select: none;
     @include themeify {
       border-bottom: 2px solid themed('line-color-deep');
@@ -132,8 +129,8 @@ let toURL = (url:string) => {
   width: 90%;
   justify-content: flex-start;
   .blogDataTitle {
-    font-size: 22px;
-    height: 50px;   
+    font-size: 20px;
+    height: 48px;   
     user-select: none;
     @include themeify {
       border-bottom: 2px solid themed('line-color-deep');

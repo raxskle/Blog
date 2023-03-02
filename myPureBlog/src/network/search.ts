@@ -5,4 +5,8 @@ async function search(params:string) {
   return response.data;
 }
 
-export { search };
+async function searchByTag(params:string |string[]) :Promise<any> {
+  let response = await axios.get(`/search/tags?text=${params}`);
+  return response;
+}
+export { search, searchByTag };

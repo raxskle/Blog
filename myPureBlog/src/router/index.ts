@@ -7,8 +7,7 @@ import {
 import IndexPage from "../pages/IndexPage.vue";
 import ArticlePage from "../pages/ArticlePage.vue";
 import NotFound from "../components/NotFound.vue";
-import AdminPage from "../pages/AdminPage.vue";
-import LoginPage from "../pages/LoginPage.vue";
+import TagsPage from "../pages/TagsPage.vue";
 
 const routes = [
   { path: "/", component: IndexPage },
@@ -16,8 +15,7 @@ const routes = [
   { path: "/learning", component: IndexPage, name: "learning" },
   { path: "/share", component: IndexPage, name: "share" },
   { path: "/essay", component: IndexPage, name: "essay" },
-  { path: "/raxskle/youmuren/login", component: LoginPage, name: "login" },
-  { path: "/admin", component: AdminPage, name: "admin" },
+  { path: "/tags", component: TagsPage, name: "tags" },
   { path: "/:path(.*)", component: NotFound }, // 匹配任意的路由
 ];
 
@@ -29,8 +27,10 @@ const router = createRouter({
 router.beforeEach((to, form, next) => {
   window.scrollTo({
     top: 0,
-    behavior: "auto",
-  });
+    behavior: router.currentRoute.value.path == "/tags"?"smooth":"auto",
+  });    
+  
+
   next();
 });
 

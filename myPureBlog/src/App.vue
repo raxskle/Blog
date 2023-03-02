@@ -11,13 +11,15 @@
 
 <script lang="ts" setup>
 import { onMounted, ref,computed, watch } from 'vue';
-import { useStore } from 'vuex'
 import Popup from './components/Popup.vue';
-const store = useStore();
-let updateBlogData = () => store.dispatch('fetchBlogData');
-// 在这里请求数据
-updateBlogData();
+import { useStore } from './store/index.js';
+import { storeToRefs } from 'pinia';
 
+
+const store = useStore();
+const { likes } = storeToRefs(store);
+
+store.fetchBlogData();
 
 let x = ref(0);
 let y = ref(0);
@@ -31,11 +33,11 @@ let mask = ref(true);
 onMounted(() => {
   setTimeout(() => {
     mask.value = false;
-  }, 800);  
+  }, 800);
 })
 
 let content = ref("");
-let likeNums = computed(() => store.state.likes);
+let likeNums = likes;
 
 let ifShowPopup = ref(false);
 let showPopup = (text) => {
@@ -48,19 +50,18 @@ let fadePopup = () => {
 
 watch(likeNums, (newval, oldval) => {
   if (oldval != 0) {
-    console.log(likeNums.value);
+    // console.log(likeNums.value);
     showPopup("点赞一次就够了噢");    
   }
 })
 
-if (import.meta.env.VITE_APP_NODE_ENV == 'development') {
-  console.log("dev");
-}
-console.log(import.meta.env.VITE_APP_NODE_ENV)
-if (import.meta.env.VITE_APP_NODE_ENV == 'production') {
-  console.log("pro");
-}
-
+// if (import.meta.env.VITE_APP_NODE_ENV == 'development') {
+//   console.log("dev");
+// }
+// console.log(import.meta.env.VITE_APP_NODE_ENV)
+// if (import.meta.env.VITE_APP_NODE_ENV == 'production') {
+//   console.log("pro");
+// }
 
 
 

@@ -1,45 +1,33 @@
-import { createStore } from "vuex";
-import { getBlogData } from "../network/getBlogData.js";
-// import { login } from "../network/login.js";
-import { postAddLikes } from "../network/postAddLikes.js";
-let store = createStore({
-  state() {
-    // 存储的单一状态
-    return {
-      articlesNum: 0,
-      tagsNum: 0,
-      likes: 0,
-      // isLogined: false,
-    };
-  },
-  getters: {},
-  mutations: {
-    addLikes(state) {
-      state.likes++;
-    },
-    updateBlogData(state, blogData) {
-      state.articlesNum = blogData.articles_num;
-      state.tagsNum = blogData.tags_num;
-      state.likes = blogData.likes;
-    },
-    // changeLoginState(state) {
-    //   state.isLogined = true;
-    // },
-  },
-  actions: {
-    fetchBlogData(context) {
-      getBlogData().then((res) => {
-        console.log(res);
-        context.commit("updateBlogData", res.data[0]);
-      });
-    },
-    toPostAddLikes() {
-      postAddLikes();
-    },
-    // toLogin(data) {
-    //   login(data);
-    // },
-  },
-});
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 
-export default store;
+import { getBlogData } from "../network/getBlogData";
+import { postAddLikes } from "../network/postAddLikes";
+
+export const useStore = defineStore("store", () => {
+  let articlesNum = ref(0);
+  let tagsNum = ref(0);
+  let likes = ref(0);
+
+  function addLikes() {
+    likes.value++;
+  }
+  
+  function updateBlogData(blogData: { articles_num: number; tags_num: number; likes: number; }) {
+    articlesNum.value = blogData.articles_num;
+    tagsNum.value = blogData.tags_num;
+    likes.value = blogData.likes;
+  }
+
+  function fetchBlogData() {
+    getBlogData().then((res) => {
+      updateBlogData(res);
+    });
+  }
+
+  function toPostAddLikes() {
+    postAddLikes();
+  }
+
+  return {articlesNum,tagsNum,likes,addLikes,updateBlogData,fetchBlogData,toPostAddLikes, };
+});

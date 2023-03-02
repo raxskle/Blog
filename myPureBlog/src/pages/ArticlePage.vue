@@ -59,11 +59,11 @@ if (id === "" || id == null ) {
   getArticle(params).then((res) => {
     // console.log(res.data[0]);
     if (!res.data[0]) {
-      console.log("无内容");
+      // console.log("无内容");
       router.push("/404");
       return;
     }
-    console.log("有内容")
+    // console.log("有内容");
     articleData.value = res.data[0];
     // console.log(res.data[0]);
 

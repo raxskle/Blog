@@ -1,9 +1,9 @@
 import axios from "./axios";
 
-function getBriefArticles(params:string) {
+function getBriefArticles(query:string) {
   return new Promise<any>((resolve, reject) => {
     axios
-      .get(`/articles${params}`)
+      .get(`/articles${query}`)
       .then((res) => {
         resolve(res.data);
       })

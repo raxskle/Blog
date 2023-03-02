@@ -5,17 +5,18 @@
     <div class="headBox">
       <div class="headlineWrap">
         <div class="headline">{{headlineText}}</div>
+        <div class="headUnderLine"></div>
       </div>
       
       <div class="headText">
-        <div class="headText1">欢迎来到我的博客😋</div>    
+        <div class="headText1">欢迎来到我的博客 😋</div>    
         <!-- <div class="headText2"><a href="/article?id=1">本站如何搭建→</a></div>  -->
         <div class="headText3">{{time}}</div>
       </div>      
       <div class="box"></div>    
     </div>
       
-    <div class="scrollToAIcon" @click="scrollToA"><img src="../../assets/image/324-circle-down.png" /></div>
+    <div class="scrollToAIcon" @click="scrollToA" ><img src="../../assets/image/324-circle-down.png" /></div>
   </div>  
 </div>
 
@@ -109,11 +110,13 @@ let headlineText = computed(() => {
 onMounted(() => {
   let img = new Image();
   // console.log("1",img.complete);
-  img.src = `/07.jpg`;
+  // img.src = `/07.jpg`;
+  img.src = `https://test.raxskle.fun/i/2022/10/17/634d17678e0be.jpg`;
   // console.log("2",img.complete);
   img.addEventListener("load", () => {
-    console.log("img loads");
-    document.querySelector(".headAreaWrap").style.backgroundImage = "url('/07.jpg')";
+    // console.log("img loads");
+    // document.querySelector(".headAreaWrap").style.backgroundImage = "url('/07.jpg')";
+    document.querySelector(".headAreaWrap").style.backgroundImage = "url('https://test.raxskle.fun/i/2022/10/17/634d17678e0be.jpg')";
     document.querySelector(".headAreaWrap").style.backgroundSize = " 100% auto";
     // document.querySelector(".headAreaWrap").style.backgroundPosition= " 0px 0px";
   })
@@ -126,7 +129,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 
 .headAreaWrap{
-  margin-top: 45px;
+  // margin-top: 45px;
   position: relative;
   flex-direction: column;
   background: url("../../assets/image/07ss.jpg");
@@ -139,16 +142,19 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   transition: background .8s;
-  filter: opacity(80%);
-  max-height: 75vh;
+  // filter: opacity(80%);
+  // max-height: 75vh;
+  max-height: 100vh;
   @media screen and (min-width: 800px){
     width: 100vw;
-    height: 75vh;
+    // height: 75vh;
+    height: 100vh;
     background-position: 0px -100px;
   }
   @media screen and (max-width: 800px){
     width: 100vw;
-    height: 60vh;
+    // height: 60vh;
+    height: 100vh;
     // background-size: auto 100% ;
     background-position: 0px 0px;
   }
@@ -222,7 +228,7 @@ onMounted(() => {
 
 .headBox {
   height: 100%;
-  width: 80%;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   // backdrop-filter: blur(20px) ;
@@ -236,19 +242,46 @@ onMounted(() => {
 }
 
 .headlineWrap{
-  // width: 210px;
   justify-content: flex-start;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  .headUnderLine{
+    height: 4px;
+    width: 100%;
+    margin: 6px;
+    @include themeify {
+      background-color: themed('line-color-deep');
+    }    
+    animation: headUnderLine 3.5s  ease-in-out ;
+  }
 }
+
+@keyframes headUnderLine {
+  0%{
+    transform: scaleX(0);
+  }
+  85%{
+    transform: scaleX(0);
+  }
+  100%{
+    transform: scaleX(1);
+  }
+}
+
 .headline {
   @extend .typing;
   // position: absolute;
   // position: relative;
   // top: 250px;
   flex-direction: column;    
-  font-size: 26px;
-  margin-bottom: 20px;
-  // width: 300px;
+  font-size: 30px;
+  font-weight: bold;
+  // line-height: 36px;
+  // width: 300px;    
 }
+
+
 .headText {
   // position: absolute;
   // top: 320px;
@@ -260,13 +293,38 @@ onMounted(() => {
   
   }
 
-
+  .headText1 {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+  }
+  .headText3 {
+    animation: moveUp 4s ease-in-out;
+  }
+  animation: moveUp 3.5s ease-in-out;
+  
 }   
+
+@keyframes moveUp {
+  0%{
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  80%{
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .scrollToAIcon {
   position: absolute;
   cursor: pointer;
-  bottom: 20px;
+  bottom: 120px;
   width: 30px;
   height: 30px;
   @include themeify {

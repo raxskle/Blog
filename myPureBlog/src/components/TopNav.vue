@@ -1,19 +1,19 @@
 <template>
 <div class="navWrap">
-  <div class="navContainer">
+  <div ref="navContainer" class="navContainer topNavInTop">
 
     <div class="navLogo"><img class="navLogoImg bounce-in-fwd" src="../assets/image/mie.png"/></div>
 
     <div class="navCenterBtn">
-      <div class="centerBtn" @click="toRoute('/')"><img class="homeIcon" src="../assets/image/001-home.svg"/> 首页</div>
+      <div class="centerBtn" @click="toRoute('/')"><img class="homeIcon" src="../assets/icons/bikini60s_home.svg"/> 首页</div>
       <div class="hasChildBtn"  @mousemove="showClassMenu" @mouseleave="unshowClassMenu">
         <div class="centerBtn classify">
-          <img class="classifyIcon" src="../assets/image/049-folder-open.svg"/> 
+          <img class="classifyIcon" src="../assets/icons/bikini60s_folder.svg"/> 
           分类
           <i class="fa fa-chevron-down" aria-hidden="true"></i>
         </div>   
 
-        <div v-if="isShowClassWindow" class="classWindow">
+        <div v-show="isShowClassWindow" class="classWindow">
           <ul class="classList" >
             <li class="articleClass" @click="toRoute('/learning')">学习笔记</li>
             <li class="articleClass" @click="toRoute('/share')">一些东西</li>
@@ -23,24 +23,24 @@
       </div>
 
     
-      <div class="centerBtn" @click="toRoute('/404')"><img class="aboutIcon" src="../assets/image/241-evil2.svg"/> 关于我</div>
+      <div class="centerBtn" @click="toRoute('/404')"><img class="aboutIcon" src="../assets/icons/bikini60s_user.svg"/> 关于我</div>
     </div>
 
     <div class="navFunction">
       <div class="searchWrap">
         <transition name="searchBoxAnimate">
-          <div v-if="ifShowSearchBox" class="searchBox">
+          <div v-show="ifShowSearchBox" class="searchBox">
             <input type="text" v-model="searchText" placeholder="搜索文章标题" @focus="showSearchResult" @blur="unshowSearchResult" @input="getSearchResult" />
-            <div v-if="ifShowSearchResult"  class="searchResult">
+            <div v-show="ifShowSearchResult" ref="searchResult" class="searchResult searchResultBKcolorTop">
               <div class="searchItem" v-for="( item,index ) of searchResultList" :key="index" @click="toThisArticle">{{item.title}}</div>
               <div v-if="ifShowSearchTips" class="searchTips">{{searchTipsText}}</div>
             </div>
           </div>         
         </transition>
-        <div class="searchBtn" @click="changeShowSearchBox"><img class="searchIcon" src="../assets/image/135-search.svg"/></div>    
+        <div class="searchBtn" @click="changeShowSearchBox"><img class="searchIcon" src="../assets/icons/bikini60s_search.svg"/></div>    
       </div>
-      <div class="themeBtn" @click="changeTheme"><img class="themeIcon" src="../assets/image/214-contrast.svg"/></div>
-      <div class="expandBtn" @click="showMobileMenu"><img class="menuIcon" src="../assets/image/190-menu.svg"/></div>
+      <div class="themeBtn" @click="changeTheme"><img class="themeIcon" src="../assets/icons/bikini60s_saturation.svg"/></div>
+      <div class="expandBtn" @click="showMobileMenu"><img class="menuIcon" src="../assets/icons/bikini60s_menu.svg"/></div>
     </div>
 
     
@@ -51,18 +51,18 @@
   <div v-if="ifShowMobileMenu" class="mobileMenuWrap" @touchstart="hideMobileMenu">
     <div class="mobileMenu" @touchstart.stop="null"  @touchmove.stop="null" >
       <div class="mobileMenuTop">
-        <div class="mobileMenuClose" @click="hideMobileMenu"><img class="closeIcon" src="../assets/image/272-cross.svg"/></div>
+        <div class="mobileMenuClose" @click="hideMobileMenu"><img class="closeIcon" src="../assets/icons/272-cross.svg"/></div>
         <div class="mobileMenuTopRight">
-          <div class="mobileMenuSearch" @click="showSearchBox"><img class="searchIcon" src="../assets/image/135-search.svg"/></div>
-          <div class="mobileMenuTheme" @click="changeTheme"><img class="themeIcon" src="../assets/image/214-contrast.svg"/></div>
+          <div class="mobileMenuSearch" @click="showSearchBox"><img class="searchIcon" src="../assets/icons/bikini60s_search.svg"/></div>
+          <div class="mobileMenuTheme" @click="changeTheme"><img class="themeIcon" src="../assets/icons/bikini60s_saturation.svg"/></div>
         </div>
       </div>
       <div class="mobileMenuPages"  >
-        <div class="mobileMenuPage" @click="toRoute('/')"  @touchend="hideMobileMenu">🏠首页</div>
-        <div class="mobileMenuPage" @click="toRoute('/learning')"  @touchend="hideMobileMenu">📒学习笔记</div>
-        <div class="mobileMenuPage" @click="toRoute('/share')" @touchend="hideMobileMenu">📦一些东西</div>
-        <div class="mobileMenuPage" @click="toRoute('/essay')" @touchend="hideMobileMenu">📜随笔杂谈</div>
-        <div class="mobileMenuPage" @click="toRoute('/404')" @touchend="hideMobileMenu">👻关于我</div>
+        <div class="mobileMenuPage" @click="toRoute('/')"  @touchend="hideMobileMenu">🏠 首页</div>
+        <div class="mobileMenuPage" @click="toRoute('/learning')"  @touchend="hideMobileMenu">📒 学习笔记</div>
+        <div class="mobileMenuPage" @click="toRoute('/share')" @touchend="hideMobileMenu">📦 一些东西</div>
+        <div class="mobileMenuPage" @click="toRoute('/essay')" @touchend="hideMobileMenu">📜 随笔杂谈</div>
+        <div class="mobileMenuPage" @click="toRoute('/404')" @touchend="hideMobileMenu">👻 关于我</div>
       </div>
       <div class="mobileMenuSocial">
         <div class="icon github"  @click="toURL('https://github.com/raxskle')">
@@ -97,25 +97,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex'
+import { useStore } from '../store/index.js';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue'
 import { search } from "../network/search";
 const store = useStore();
-
-let articlesNum = computed(() => store.state.articlesNum);
-let tagsNum = computed(() => store.state.tagsNum);
+const { articlesNum,tagsNum } = storeToRefs(store);
 
 let router = useRouter();
-let toRoute = (route:string) => {
+let toRoute = (route: string) => {
+  isShowClassWindow.value = false;
   router.push(route);
 }
 
 let isShowClassWindow = ref(false);
 
 let showClassMenu = () => {
-  isShowClassWindow.value = true;
+  if (location.pathname == "/article") {
+    isShowClassWindow.value = true;    
+  } else {
+    if (window.scrollY != 0) {
+      isShowClassWindow.value = true;  
+    }    
+  }
 }
 
 let unshowClassMenu = () => {
@@ -138,7 +144,7 @@ if (lastTheme == null) {
 }
 
 let changeTheme = () => {
-  let newTheme;
+  let newTheme: string;
   if (window.document.documentElement.getAttribute("data-theme") == "light") {
     newTheme = "dark";
   } else {
@@ -160,7 +166,7 @@ let hideMobileMenu = () => {
 let ifShowSearchBox = ref(false);
 let ifShowSearchResult = ref(false);
 let searchText = ref("");
-let searchResultList = ref([]);
+let searchResultList = ref<any[]>([]);
 let searchTipsText = ref("暂无你想要的内容");
 let ifShowSearchTips = ref(false);
 
@@ -182,7 +188,7 @@ let unshowSearchResult = () => {
 }
 
 
-let searchLimitation = null;
+let searchLimitation:any = null;
 let getSearchResult = () => {
   clearTimeout(searchLimitation);
   if (searchText.value) {
@@ -235,6 +241,43 @@ watch(router.currentRoute, (newval) => {
   lastFullPath = router.currentRoute.value.fullPath;
 })
 
+// 透明和不透明
+// console.log(window.scrollY)
+// watch(,(newval) => {
+//   console.log(newval);
+// })
+let navContainer = ref(null);
+let searchResult = ref(null);
+let topNavAnimation =  () => {
+  if (location.pathname != "/article") {
+    if(window.scrollY == 0 ){
+      navContainer.value.className = "navContainer topNavInTop";
+      searchResult.value.className = "searchResult searchResultBKcolorTop";
+      if (isShowClassWindow.value == true) {
+        isShowClassWindow.value = false;
+      }
+    } else {
+      navContainer.value.className = "navContainer topNavNotInTop";
+      searchResult.value.className = "searchResult searchResultBKcolor";
+    }    
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", topNavAnimation);
+  if (location.pathname != "/article") {
+    navContainer.value.className = "navContainer topNavInTop";    
+    searchResult.value.className = "searchResult searchResultBKcolorTop";
+  } else {
+    navContainer.value.className = "navContainer topNavNotInTop";    
+    searchResult.value.className = "searchResult searchResultBKcolor";
+  }
+})
+
+onUnmounted(() => {
+  window.removeEventListener("scroll",topNavAnimation);
+})
+
 </script>
 
 <style lang="scss" scoped>
@@ -243,26 +286,30 @@ watch(router.currentRoute, (newval) => {
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 5;
+  z-index: 10;
   transition: background-color .4s;
-
-
 }
 .navContainer{
-  height: 45px;
   width: 100vw;
-  @include themeify {
-    background-color: themed('top-nav-bg-color');
-  }   
-
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  transition: all .2s ease-in;
+}
+
+.topNavNotInTop{
   @include themeify {
-    box-shadow: 0px 0px 0.8px 0.4px  themed('line-color');
+    background-color: themed('top-nav-bg-color');
+    box-shadow: 0px 0px 0.8px 0.4px  themed('line-color');    
   }   
-  
+  height: 45px;
+}
+
+.topNavInTop {
+  height: 60px;
+  background-color: transparent;
+  box-shadow: transparent;  
 }
 
 .navLogo {
@@ -463,10 +510,12 @@ watch(router.currentRoute, (newval) => {
   @include themeify {
     filter:  themed('btn-img-filter');   
   }   
-  
+  height: 20px;
   // 改变图标颜色
   margin: 5px;
+  transition:all .4s;
 }
+
 
 .fa-chevron-down{
   margin-left: 2px;
@@ -480,6 +529,7 @@ watch(router.currentRoute, (newval) => {
 
 .classWindow {
   position: absolute;
+  border-radius: 0px 0px 10px 10px;
   @include themeify {
     background-color: themed('top-nav-bg-color');
   }   
@@ -504,6 +554,7 @@ watch(router.currentRoute, (newval) => {
   .classList {
     width: 100px;
     height: 120px;
+    border-radius: 0px 0px 10px 10px;
     // &:hover {
     //   color: black;
     // }
@@ -513,6 +564,7 @@ watch(router.currentRoute, (newval) => {
       justify-content: center;
       align-items: center;
       height: 30px;
+      border-radius: 0px 0px 10px 10px;
       cursor: pointer;
       transition: all .4s;
       &:hover {
@@ -581,25 +633,35 @@ watch(router.currentRoute, (newval) => {
       
     }
 
+
+
+    .searchResultBKcolorTop {
+      background-color: transparent;
+    }
+    .searchResultBKcolor {
+      @include themeify {
+        background-color: themed('index-page-bg-color');
+        box-shadow: 0px 0.5px 0.8px 0.4px  themed('line-color');
+      }   
+    }
+
     .searchResult {
       position: absolute;
       width: 200px;
       padding-bottom: 10px;
       border-radius: 0px 0px 5px 5px;
       height: auto;
-      @include themeify {
-        background-color: themed('index-page-bg-color');
-        box-shadow: 0px 0.5px 0.8px 0.4px  themed('line-color');
-      }   
+
+      transition: all .4s;
 
       top: 45px;
       flex-direction: column;
 
       .searchItem {
-        @include themeify {
-          background-color: themed('index-page-bg-color');
+        // @include themeify {
+          // background-color: themed('index-page-bg-color');
           // border-bottom: 1px solid themed('line-color');          
-        }   
+        // }   
         box-sizing: border-box;
         width: 100%;
         padding: 5px;
@@ -741,13 +803,13 @@ watch(router.currentRoute, (newval) => {
 .mobileMenuData {
   // height: 15%;
   flex-grow: 1;
-  width: 100%;
+  width: 90%;
   @include themeify {
-      background-color: themed('line-color');
-  }   
+    border-top: .5px solid themed('line-color');
+  } 
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 5vh;
+  padding-bottom: 4vh;
   // .mobileMenuDataA {
 
   // }

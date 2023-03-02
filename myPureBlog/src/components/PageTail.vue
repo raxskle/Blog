@@ -6,20 +6,21 @@
   <div class="likeNums">{{likeNums}}</div>
   <div class="tailText">   
     <p>Designed and developed by Raxskle.</p>
-    <p> © 2022 &nbsp; All Rights Reserved.</p>
+    <p>© 2022 &nbsp; raxskle.fun</p>
+    <a href="https://beian.miit.gov.cn" target="_blank" >粤ICP备2022123403号</a>
   </div>
 
 </div>
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
+import { useStore } from '../store/index.js';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue'
 const store = useStore();
-
-let likeNums = computed(() => store.state.likes);
-let addLikes = () => store.commit('addLikes');
-let toPostAddLikes = () => store.dispatch('toPostAddLikes');
+const { likes:likeNums } = storeToRefs(store);
+let addLikes = store.addLikes;
+let toPostAddLikes = store.toPostAddLikes;
 
 let zanFinish = null;
 let zan = (e) => {
@@ -100,14 +101,20 @@ let zan = (e) => {
   }
 }
 
-
 .tailText {
   flex-direction: column;
-  p {
+  p , a {
     font-size: 13px;
     margin-bottom: 8px;
   }
+
+  a {
+    @include themeify {
+      color: themed('font-color');
+    } 
+    &:hover {
+      cursor: default;
+    }
+  }
 }
-
-
 </style>

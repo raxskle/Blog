@@ -9,7 +9,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  // width: 100vw;
   // color: white;
   overflow-x: hidden;
   display: flex;
@@ -56,10 +56,6 @@ li {
   text-align: center;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -74,10 +70,14 @@ li {
 } 
 
 pre::-webkit-scrollbar{
-  width: 4px;  
-  height: 4px;
+  width: 5px;  
+  height: 5px;
 }
 
+code::-webkit-scrollbar{
+  width: 5px;  
+  height: 5px;
+}
 
 
 // 鼠标选中文本
@@ -87,11 +87,12 @@ pre::-webkit-scrollbar{
 }
 
 
+
 .mdContentBar h1 ,h2,h3,h4,h5 {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
   padding: 5px;
-  padding-left: 20px;
+  padding-left: 18px;
   padding-right: 20px;
   border-radius: 5px;
   border-left: solid 5px rgb(12, 174, 196);
@@ -109,7 +110,7 @@ pre::-webkit-scrollbar{
 }
 
 .mdContentBar h1 {
-  font-size: 24px;
+  font-size: 22px;
   width: 80%;
   // &::before {
   //   content: "# ";
@@ -117,11 +118,11 @@ pre::-webkit-scrollbar{
 }
 
 .mdContentBar h2 {
-  font-size: 22px;
-  width: 70%;  
-  // &::before {
-  //   content: "## ";
-  // }
+  font-size: 20px;
+  width: 75%;  
+  @media screen and (max-width: 800px){
+    width: 80%;
+  }
 }
 
 .mdContentBar h3 {
@@ -133,7 +134,7 @@ pre::-webkit-scrollbar{
 }
 
 .mdContentBar h4 {
-  font-size: 18px;
+  font-size: 16px;
   width: 50%;
 }
 
@@ -152,6 +153,10 @@ pre::-webkit-scrollbar{
 .mdContentBar p{
   margin-bottom: 10px;
   font-size: 16px;
+  margin-left: 4px;
+  line-height: 150%;
+  // width: 100%;
+  word-break:break-all;
 }
 
 .mdContentBar hr {
@@ -171,20 +176,31 @@ pre::-webkit-scrollbar{
   align-items: flex-start;
   justify-content: flex-start;  
   flex-direction: column;
-  padding-left: 30px;
-  margin-top: 10px;
+  padding-left: 20px;
+  margin-top: 8px;
   margin-bottom: 10px;
   >li  {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  margin-bottom: 10px;
-  &::before {
-    content: "▪ ";
-    color: rgb(12, 174, 196);
+  margin-bottom: 8px;
+  padding-left: 14px;
+    &::before {
+      content: "▪ ";
+      left: 0px;
+      position: absolute;
+      color: rgb(12, 174, 196);
+    }
 
+    >p {
+      // margin-left: auto;
+      justify-content: flex-start;
+      align-items: flex-start;
+      text-align: justify;
+      text-justify: inter-ideograph;
+      margin-bottom: 4px;
+    }
   }
-}
 
 }
 
@@ -214,7 +230,7 @@ pre::-webkit-scrollbar{
   }
 
   >li {
-    margin-bottom: 10px;    
+    margin-bottom: 8px;    
     flex-direction: row;
   }
 
@@ -227,20 +243,32 @@ pre::-webkit-scrollbar{
   padding: 12px;
   margin-top: 8px;
   font-size: 14px;
-  max-width: 80%;
-  min-width: 50%;
   min-height: 50px;
   height: auto;
   max-height: 500px;
   overflow: auto;
-  color: rgb(90, 90, 90);
-
+  color: rgb(57, 57, 57);
+  @media screen and (max-width: 800px){
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media screen and (min-width: 800px){
+    min-width: 60%;
+    max-width: 80%;
+  }  
 }
+
 
 .mdContentBar  code {
-  font-family: 'Gill Sans MT';
+  font-family: "NOTO SERIF SC SEMIBOLD";
   padding: 5px;
 }
+
+
+// pre code {
+//   color: antiquewhite;
+// }
 
 
 .mdContentBar blockquote {
@@ -266,6 +294,7 @@ pre::-webkit-scrollbar{
 
 .mdContentBar img {
   max-width: 90%;
+  border-radius: 10px;
 }
 
 

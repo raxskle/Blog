@@ -14,11 +14,11 @@ articles.get("/all", async (ctx) => {
       let response = data;
       response.forEach((val) => {
         // 去标签化
-        val.content = val.content.replace(/<.*?>/g, "");
+        val.content = val.content.replace(/<(?!img).*?>/g, "    ");
         // 缩短
-        if (val.content.length > 300) {
-          val.content = val.content.slice(0, 300);
-        }
+        // if (val.content.length > 300) {
+        // val.content = val.content.slice(0, 300);
+        // }
         // console.log(val.content);
       });
       resolve(response); // 返回拿到的数据
@@ -40,11 +40,11 @@ articles.get("/learning", async (ctx) => {
       }
       let response = data;
       response.forEach((val) => {
-        if (val.content.length > 300) {
-          val.content = val.content.slice(0, 300);
-        }
+        // if (val.content.length > 300) {
+        //   val.content = val.content.slice(0, 300);
+        // }
         // console.log(val.content);
-        val.content = val.content.replace(/<.*?>/g, "");
+        val.content = val.content.replace(/<(?!img).*?>/g, "    ");
       });
       resolve(response); // 返回拿到的数据
     });
@@ -64,11 +64,11 @@ articles.get("/share", async (ctx) => {
       }
       let response = data;
       response.forEach((val) => {
-        if (val.content.length > 300) {
-          val.content = val.content.slice(0, 300);
-        }
+        // if (val.content.length > 300) {
+        //   val.content = val.content.slice(0, 300);
+        // }
         // console.log(val.content);
-        val.content = val.content.replace(/<.*?>/g, "");
+        val.content = val.content.replace(/<(?!img).*?>/g, "    ");
       });
       resolve(response); // 返回拿到的数据
     });
@@ -88,11 +88,11 @@ articles.get("/essay", async (ctx) => {
       }
       let response = data;
       response.forEach((val) => {
-        if (val.content.length > 300) {
-          val.content = val.content.slice(0, 300);
-        }
+        // if (val.content.length > 300) {
+        //   val.content = val.content.slice(0, 300);
+        // }
         // console.log(val.content);
-        val.content = val.content.replace(/<.*?>/g, "");
+        val.content = val.content.replace(/<(?!img).*?>/g, "    ");
       });
       resolve(response); // 返回拿到的数据
     });

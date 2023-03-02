@@ -1,7 +1,7 @@
 <template>
 <div v-if="!showRightSideArea" class="btn-hidden" @click="show"><img  src="../../assets/image/325-circle-left.svg"/></div>
-<div v-if="showRightSideArea" ref="rightSideArea" class="rightSideArea">
-<div class="btn" @click="hide"><img src="../../assets/image/323-circle-right.svg"/></div>
+<div v-if="showRightSideArea" ref="rightSideArea" class="rightSideArea" @mouseover="showBtn" @mouseout="unshowBtn">
+<div ref="btn" class="btn" @click="hide"><img src="../../assets/image/323-circle-right.svg"/></div>
   <div class="catalogue">
     <div class="title">目录</div>
     <div class="itemWrap">
@@ -21,13 +21,15 @@
 import {  ref, toRefs, } from 'vue';
 // import { marked } from 'marked';
 // import RightSideTags from "../IndexPage/InMainArea/RightSideTags.vue"
-import Tags from "../IndexPage/InMainArea/Tags.vue"
+import Tags from "../Tags.vue"
 
 let props = defineProps({
   articleCatalogueList: {},
   tags:{},
 })
 let { articleCatalogueList,tags } = toRefs(props);
+
+console.log(tags);
 
 let toH2posi = (e) => {
   // console.log(e.target.parentNode.children[3] == e.target);
@@ -38,32 +40,36 @@ let toH2posi = (e) => {
     }
   }
   if (i < e.target.parentNode.children.length) {
-    console.log(i);
+    // console.log(i);
     let h2List = document.querySelectorAll(".mdContentBar >h2") as NodeListOf<HTMLElement>;
-    console.dir(h2List[i]);
+    // console.dir(h2List[i]);
     window.scrollTo({
       top: h2List[i].offsetTop,
       behavior: 'smooth'
     });
-
-    
   }
-  
 }
 
 let rightSideArea = ref(null);
 let showRightSideArea = ref(true);
 let hide = () => {
-  console.log(rightSideArea.value);
   rightSideArea.value.style.transform = "translateX(22vw)";
   setTimeout(() => {
     showRightSideArea.value = false;  
   }, 500);
 }
 let show = () => {
-  console.log(rightSideArea.value);
   showRightSideArea.value = true;  
 }
+
+let btn = ref(null);
+let showBtn = () => {
+  btn.value.style.opacity = "100%";
+}
+let unshowBtn = () => {
+  btn.value.style.opacity = "0%";
+}
+
 
 </script>
 
@@ -218,7 +224,7 @@ let show = () => {
       // height: 50px;
       @include themeify {
         border-bottom: solid 1px themed('box-bg-color-deep');
-      }      
+      }
       
       transition: all .5s;     
       

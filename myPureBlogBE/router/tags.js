@@ -13,20 +13,23 @@ tags.get("/", async (ctx) => {
       resolve(data); // 返回拿到的数据
     });
   });
+  console.log("获取所有tags");
   ctx.body = data;
 });
 
 let addNewTag = (tagName) => {
-  let sql = `INSERT INTO tags (tag_name) VALUES ('${tagName}');`;
+  let sql = `INSERT INTO tags ( tag_name) VALUES ('${tagName}');`;
   db.query(sql, (err, data) => {
     if (err) {
-      console.log(err);
+      console.log("插入标签错误1", err);
     }
+    console.log("插入标签");
   });
+
   let addNumsSql = `UPDATE blog_data SET tags_num = tags_num + 1 WHERE (id = '1');`;
   db.query(addNumsSql, (err, data) => {
     if (err) {
-      console.log(err);
+      console.log("更新标签数错误", err);
     }
   });
 };
@@ -57,7 +60,7 @@ tags.post("/addtags", auth, async (ctx) => {
           }
         });
         if (isNewTag) {
-          // console.log("新标签");
+          console.log("得到新标签");
           response.hasNewTags = true;
           response.addTags.push(tag);
           addNewTag(tag);
